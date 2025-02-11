@@ -1,6 +1,5 @@
 <script setup>
-import Header from '@/Components/Header.vue';
-import Footer from '@/Components/Footer.vue';
+import FrontendLayout from '@/Layouts/FronendLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref, watch } from "vue";
 import { ElMessage } from "element-plus";
@@ -13,193 +12,165 @@ const selectedTime = ref(null);
 const availableTimeSlots = ["11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM"];
 
 const form = useForm({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    selected_date: '',
-    selected_time: ''
+  name: '',
+  email: '',
+  phone: '',
+  address: '',
+  selected_date: '',
+  selected_time: ''
 });
 
 const openDialog = () => {
-    dialogVisible.value = true;
+  dialogVisible.value = true;
 };
 
 // Disable past dates
 const disablePastDates = (date) => {
-    return date.getTime() < new Date().setHours(0, 0, 0, 0);
+  return date.getTime() < new Date().setHours(0, 0, 0, 0);
 };
 
 // Watch for date selection
 watch(selectedDate, (newDate) => {
-    if (newDate) {
-        form.selected_date = newDate.toISOString().split('T')[0];
-    }
+  if (newDate) {
+    form.selected_date = newDate.toISOString().split('T')[0];
+  }
 });
 
 // Handle time slot selection
 const selectTimeSlot = (time) => {
-    selectedTime.value = time;
-    form.selected_time = time;
+  selectedTime.value = time;
+  form.selected_time = time;
 };
 
 // Handle Continue button
 const handleContinue = () => {
-    if (step.value === 1) {
-        if (!form.selected_date || !form.selected_time) {
-            ElMessage.error("Please select a date and time slot.");
-            return;
-        }
-        step.value = 2;
-    } else if (step.value === 2) {
-        if (!form.name || !form.email || !form.phone || !form.address) {
-            ElMessage.error("Please fill all the fields.");
-            return;
-        }
-
-        form.post(route("appointment.store"), {
-            onSuccess: () => {
-                ElMessage.success("Appointment booked successfully!");
-                dialogVisible.value = false;
-                step.value = 1;
-                selectedDate.value = new Date();
-                selectedTime.value = null;
-                form.reset();
-            },
-            onError: (errors) => {
-                console.error("Error:", errors);
-                ElMessage.error("There was an error booking the appointment.");
-            }
-        });
+  if (step.value === 1) {
+    if (!form.selected_date || !form.selected_time) {
+      ElMessage.error("Please select a date and time slot.");
+      return;
     }
+    step.value = 2;
+  } else if (step.value === 2) {
+    if (!form.name || !form.email || !form.phone || !form.address) {
+      ElMessage.error("Please fill all the fields.");
+      return;
+    }
+
+    form.post(route("appointment.store"), {
+      onSuccess: () => {
+        ElMessage.success("Appointment booked successfully!");
+        dialogVisible.value = false;
+        step.value = 1;
+        selectedDate.value = new Date();
+        selectedTime.value = null;
+        form.reset();
+      },
+      onError: (errors) => {
+        console.error("Error:", errors);
+        ElMessage.error("There was an error booking the appointment.");
+      }
+    });
+  }
 };
 
 </script>
 
 <template>
-    <Head title="Welcome" />
-    <Header/>
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Expert Guidance for Student Visas</h1>
-            <p>Unlock unlimited opportunities with expert guidance, personal consultations for the best universities worldwide, and a hassle-free application process with visa support.</p>
-            <div class="buttons">
-                <button @click=openDialog>Book Appointment</button>
-                <a href="#">E-Visa Service</a>
-            </div>
-            <p class="star">Excellent <span style="color: #325eee;">★★★★★</span> Trusted by 3.2M+ Students</p>
+
+  <Head title="Welcome" />
+  <FrontendLayout>
+    <div>
+      <section class="hero flex items-center justify-center text-left p-4 gap-8 bg-cover bg-center"
+        :style="{ backgroundImage: `url('/storage/image/Background.png')` }">
+        <div class="hero-content max-w-1/2">
+          <h1 class="text-4xl font-bold text-gray-800 mb-4">Expert Guidance for Student Visas</h1>
+          <p class="text-lg text-gray-600 mb-8">Unlock unlimited opportunities with expert guidance, personal
+            consultations for the best universities worldwide, and a hassle-free application process with visa support.
+          </p>
+          <div class="buttons flex gap-4">
+            <button @click="openDialog"
+              class="bg-teal-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-700 transition-colors">Book
+              Appointment</button>
+            <a href="#"
+              class="bg-teal-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-700 transition-colors">E-Visa
+              Service</a>
+          </div>
+          <p class="star text-sm mt-4">Excellent <span class="text-blue-600">★★★★★</span> Trusted by 3.2M+ Students</p>
         </div>
         <div class="hero-image">
-            <img :src="'/storage/image/Study Abroad.png'" alt="Travel illustration">
+          <img class="max-w-full h-auto rounded-lg" :src="'/storage/image/Study Abroad.png'" alt="Travel illustration">
         </div>
-    </section>
+      </section>
 
+      <section class="why-choose" id="about-us">
+        <img src="https://unispaces.sgp1.cdn.digitaloceanspaces.com/nebula/images/1716835035743.svg"
+          alt="Why choose illustration">
+        <div class="why-choose-content">
+          <h2>Why choose Visa Consultancy for your <span style="color: #2563eb;">visa processing</span> needs?</h2>
+          <p>Some visa processing centers have reliability issues because they don’t have a secure server system. This
+            creates the possibility of visa rejection.</p>
+          <p>There are lots of visa processing support centers in Bangladesh. When you look for expertise and
+            experience, few of them are worthy to qualify. In terms of expertise and experience, VisaThing is the only
+            place where people can get reliable service. VisaThing's knowledge of different visa policies is authentic
+            and professional.</p>
+          <p>Visa Consultancy is a technology-based visa service provider in Bangladesh. You can get an A to Z visa
+            processing service through VisaThing online visa processing for Bangladeshi.</p>
+        </div>
+      </section>
 
-    <section class="visa-steps">
-        <h2>Get your <span style="color: #2563eb;">Visa</span> within <span style="color: #2563eb;">4 Steps</span></h2>
+      <section class="visa-steps">
+        <h2>Get your <span style="color: #2563eb;">Visa</span> within <span style="color: #2563eb;">5 Steps</span></h2>
         <div class="steps-container">
-            <div class="step">
-                <div class="step-number">01</div>
-                <img src="https://visathing.com/_next/image/?url=https%3A%2F%2Funispaces.sgp1.cdn.digitaloceanspaces.com%2Fnebula%2Fimages%2F1704188476172.png&w=1920&q=75" alt="Step 1">
-                <h3>Create Visa Consultancy! Account</h3>
-                <p>First, you need to open an account on the Visa Consultancy online portal to complete your online visa processing in Bangladesh.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">02</div>
-                <img src="https://visathing.com/_next/image/?url=https%3A%2F%2Funispaces.sgp1.cdn.digitaloceanspaces.com%2Fnebula%2Fimages%2F1704188580898.png&w=1920&q=75" alt="Step 2">
-                <h3>Upload Your Documents</h3>
-                <p>After completing your Visa Consultancy account, you need to upload all the necessary documents. Kindly scan all the required documents properly.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">03</div>
-                <img src="https://visathing.com/_next/image/?url=https%3A%2F%2Funispaces.sgp1.cdn.digitaloceanspaces.com%2Fnebula%2Fimages%2F1704188609106.png&w=1920&q=75" alt="Step 3">
-                <h3>Embassy Approval</h3>
-                <p>After uploading all the required documents, Visa Consultancy will start your desired visa processing and send it to the embassy.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">04</div>
-                <img src="https://visathing.com/_next/image/?url=https%3A%2F%2Funispaces.sgp1.cdn.digitaloceanspaces.com%2Fnebula%2Fimages%2F1704188650177.png&w=1920&q=75" alt="Step 4">
-                <h3>Get Your Visa</h3>
-                <p>After the embassy gives you visa approval, you will get your visa copy.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="business-network" id="contact-us">
-        <div class="container">
-          <div class="network-content">
-            
-            <!-- Left Side Content -->
-            <div class="text-content">
-              <h3><span class="highlight">Visa Consultancy</span> Contact Us</h3>
-              <h2>Let’s work—<span class="blue-text">together</span></h2>
-              <img src="https://visathing.com/images/business_network/connect_corporate.svg" alt="Business Network Image" class="illustration">
-            </div>
-      
-            <!-- Right Side Form -->
-            <div class="form-container">
-              <h3>To register, complete a short inquiry</h3>
-              <form action="#" method="POST">
-                
-                <div class="input-group">
-                  <div class="input-box">
-                    <label for="name">* First Name</label>
-                    <input type="text" id="name" name="name" placeholder="Enter your first name" required>
-                  </div>
-                  <div class="input-box">
-                    <label for="company">* Last Name</label>
-                    <input type="text" id="company" name="company" placeholder="Enter your last name" required>
-                  </div>
-                </div>
-      
-                <div class="input-group">
-                  <div class="input-box">
-                    <label for="email">* Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                  </div>
-                  <div class="input-box">
-                    <label for="phone">* Phone Number</label>
-                    <div class="phone-input">
-                      <span class="flag-icon">🇧🇩</span>
-                      <input type="text" id="phone" name="phone" placeholder="+880" required>
-                    </div>
-                  </div>
-                </div>
-      
-                <div class="input-box">
-                  <label for="address">* Address</label>
-                  <input type="text" id="address" name="address" placeholder="Enter your address" required>
-                </div>
-      
-                <div class="input-box">
-                  <label for="message">* Message</label>
-                  <textarea id="message" name="message" rows="4" placeholder="Write your message" required></textarea>
-                </div>
-      
-                <button type="submit" class="submit-btn">Submit</button>
-      
-              </form>
-            </div>
-      
+          <div class="step">
+            <div class="step-number">01</div>
+            <img
+              :src="'/storage/image/process.png'"
+              alt="Step 1">
+            <h3>Application process </h3>
+            <p>First, you need to know about <a href="#" style="color: blue;">required documents</a> for visa
+              processing in Bangladesh.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">02</div>
+            <img
+              src="https://visathing.com/_next/image/?url=https%3A%2F%2Funispaces.sgp1.cdn.digitaloceanspaces.com%2Fnebula%2Fimages%2F1704188476172.png&w=1920&q=75"
+              alt="Step 1">
+            <h3>Create Visa Consultancy! Account</h3>
+            <p>After, knowing the required documents, you can open an account on the Visa Consultancy online portal.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">03</div>
+            <img
+              src="https://visathing.com/_next/image/?url=https%3A%2F%2Funispaces.sgp1.cdn.digitaloceanspaces.com%2Fnebula%2Fimages%2F1704188580898.png&w=1920&q=75"
+              alt="Step 2">
+            <h3>Upload Your Documents</h3>
+            <p>After completing your Visa Consultancy account, you need to upload all the necessary documents. Kindly
+              scan all the required documents properly.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">04</div>
+            <img
+              src="https://visathing.com/_next/image/?url=https%3A%2F%2Funispaces.sgp1.cdn.digitaloceanspaces.com%2Fnebula%2Fimages%2F1704188609106.png&w=1920&q=75"
+              alt="Step 3">
+            <h3>Embassy Approval</h3>
+            <p>After uploading all the required documents, Visa Consultancy will start your desired visa processing and
+              send it to the embassy.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">05</div>
+            <img
+              src="https://visathing.com/_next/image/?url=https%3A%2F%2Funispaces.sgp1.cdn.digitaloceanspaces.com%2Fnebula%2Fimages%2F1704188650177.png&w=1920&q=75"
+              alt="Step 4">
+            <h3>Get Your Visa</h3>
+            <p>After the embassy gives you visa approval, you will get your visa copy.</p>
           </div>
         </div>
       </section>
-      
 
-    <section class="why-choose" id="about-us">
-        <img src="https://unispaces.sgp1.cdn.digitaloceanspaces.com/nebula/images/1716835035743.svg" alt="Why choose illustration">
-        <div class="why-choose-content">
-            <h2>Why choose Visa Consultancy for your <span style="color: #2563eb;">visa processing</span> needs?</h2>
-            <p>Some visa processing centers have reliability issues because they don’t have a secure server system. This creates the possibility of visa rejection.</p>
-            <p>There are lots of visa processing support centers in Bangladesh. When you look for expertise and experience, few of them are worthy to qualify. In terms of expertise and experience, VisaThing is the only place where people can get reliable service. VisaThing's knowledge of different visa policies is authentic and professional.</p>
-            <p>Visa Consultancy is a technology-based visa service provider in Bangladesh. You can get an A to Z visa processing service through VisaThing online visa processing for Bangladeshi.</p>
-        </div>
-    </section>
-
-    <section class="visa-appointment">
+      <section class="visa-appointment">
         <div class="container">
           <div class="appointment-content">
-            
+
             <!-- Left Text Content -->
             <div class="text-content">
               <h2>
@@ -207,21 +178,22 @@ const handleContinue = () => {
                 <span class="blue-text">Free Appointment</span>
               </h2>
               <p>
-                Make your appointment with Visa Consultancy through the appointment portal. Click on an appointment, 
-                choose your visa type, and pick an available slot. Attend the Visa Consultancy office on time with the 
+                Make your appointment with Visa Consultancy through the appointment portal. Click on an appointment,
+                choose your visa type, and pick an available slot. Attend the Visa Consultancy office on time with the
                 required documents. Stay updated for smooth visa processing with Visa Consultancy.
               </p>
-      
+
               <p>
-                You can start your visa application journey by contacting Visa Consultancy. There is only one branch 
-                of Visa Consultancy in Dhaka, Bangladesh. You can also apply to the Visa Consultancy online portal to reduce 
+                You can start your visa application journey by contacting Visa Consultancy. There is only one branch
+                of Visa Consultancy in Dhaka, Bangladesh. You can also apply to the Visa Consultancy online portal to
+                reduce
                 your visa processing time.
               </p>
-      
+
               <p class="opening-hours">
                 <strong>Opening Hours:</strong> 9:30 AM to 6:30 PM (Bangladesh Time)
               </p>
-      
+
               <!-- Buttons -->
               <div class="buttons">
                 <button class="btn book-btn">Book Appointment</button>
@@ -231,346 +203,346 @@ const handleContinue = () => {
                 </button>
               </div>
             </div>
-      
+
             <!-- Right Image -->
             <div class="image-container">
-              <img src="https://visathing.com/images/landing/appointment.svg" alt="Appointment Image" class="appointment-image" />
+              <img src="https://visathing.com/images/landing/appointment.svg" alt="Appointment Image"
+                class="appointment-image" />
             </div>
           </div>
         </div>
       </section>
-<Footer/>
-<div>
-            <el-dialog v-model="dialogVisible" title="Book an Appointment" width="50%">
-            <div v-if="step === 1" class="appointment-container">
-                <div class="calendar-section">
-                    <el-calendar v-model="selectedDate" :disabled-date="disablePastDates" class="small-calendar"/>
-                </div>
-
-                <div class="time-slot-section">
-                    <h3>Select a time</h3>
-                    <div class="time-slots">
-                        <el-button 
-                            v-for="(time, index) in availableTimeSlots" 
-                            :key="index" 
-                            size="small" 
-                            :type="selectedTime === time ? 'primary' : 'default'" 
-                            @click="selectTimeSlot(time)"
-                        >
-                            {{ time }}
-                        </el-button>
-                    </div>
-                </div>
+      <div>
+        <el-dialog v-model="dialogVisible" title="Book an Appointment" width="50%">
+          <div v-if="step === 1" class="appointment-container">
+            <div class="calendar-section">
+              <el-calendar v-model="selectedDate" :disabled-date="disablePastDates" class="small-calendar" />
             </div>
 
-            <div v-if="step === 2" class="form-container">
-                <el-form :model="form">
-                    <el-form-item label="Name">
-                        <el-input v-model="form.name" />
-                    </el-form-item>
-
-                    <el-form-item label="Email">
-                        <el-input v-model="form.email" />
-                    </el-form-item>
-
-                    <el-form-item label="Phone">
-                        <el-input v-model="form.phone" />
-                    </el-form-item>
-
-                    <el-form-item label="Address">
-                        <textarea v-model="form.address" id="address" name="address" rows="4" placeholder="Write your address" required></textarea>
-                    </el-form-item>
-                </el-form>
+            <div class="time-slot-section">
+              <h3>Select a time</h3>
+              <div class="time-slots">
+                <el-button v-for="(time, index) in availableTimeSlots" :key="index" size="small"
+                  :type="selectedTime === time ? 'primary' : 'default'" @click="selectTimeSlot(time)">
+                  {{ time }}
+                </el-button>
+              </div>
             </div>
+          </div>
 
-            <template #footer>
-                <el-button @click="dialogVisible = false">Cancel</el-button>
-                <el-button type="primary" @click="handleContinue">Continue</el-button>
-            </template>
+          <div v-if="step === 2" class="form-container">
+            <el-form :model="form">
+              <el-form-item label="Name">
+                <el-input v-model="form.name" />
+              </el-form-item>
+
+              <el-form-item label="Email">
+                <el-input v-model="form.email" />
+              </el-form-item>
+
+              <el-form-item label="Phone">
+                <el-input v-model="form.phone" />
+              </el-form-item>
+
+              <el-form-item label="Address">
+                <textarea v-model="form.address" id="address" name="address" rows="4" placeholder="Write your address"
+                  required></textarea>
+              </el-form-item>
+            </el-form>
+          </div>
+
+          <template #footer>
+            <el-button @click="dialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="handleContinue">Continue</el-button>
+          </template>
         </el-dialog>
+      </div>
     </div>
+  </FrontendLayout>
 </template>
 
 <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8fafc;
-            color: #2c3e50;
-            line-height: 1.6;
-        }
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8fafc;
+  color: #2c3e50;
+  line-height: 1.6;
+}
 
-        header {
-            background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 0.5rem 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            z-index: 1000;
-        }
+header {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1000;
+}
 
-        .logo img{
-            height: 70px;
-            width: 90px;
-        }
+.logo img {
+  height: 70px;
+  width: 90px;
+}
 
-        .navbar {
-            display: flex;
-            gap: 1.5rem;
-        }
+.navbar {
+  display: flex;
+  gap: 1.5rem;
+}
 
-        .navbar a {
-            text-decoration: none;
-            color: #2c3e50;
-            font-weight: 500;
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: background-color 0.3s, color 0.3s;
-        }
+.navbar a {
+  text-decoration: none;
+  color: #2c3e50;
+  font-weight: 500;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
 
-        .navbar a:hover {
-            background-color: #e5e7eb;
-            color: #1d4ed8;
-        }
+.navbar a:hover {
+  background-color: #e5e7eb;
+  color: #1d4ed8;
+}
 
-        .menu-icon {
-            display: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: #2c3e50;
-        }
+.menu-icon {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #2c3e50;
+}
 
-        .buttons a, button {
-            text-decoration: none;
-            padding: 0.7rem 1.5rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 5px;
-            color: white;
-            background: #049191;
-            transition: background 0.3s;
-        }
+.buttons a,
+button {
+  text-decoration: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 5px;
+  color: white;
+  background: #049191;
+  transition: background 0.3s;
+}
 
-        .buttons a:hover {
-            background: #1e40af;
-        }
+.buttons a:hover {
+  background: #1e40af;
+}
 
-        .buttons a.create-profile {
-            background: #049191;
-        }
+.buttons a.create-profile {
+  background: #049191;
+}
 
-        .buttons a.create-profile:hover {
-            background: #15803d;
-        }
+.buttons a.create-profile:hover {
+  background: #15803d;
+}
 
-        .hero {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: left;
-            padding: 0rem 1rem;
-            gap: 2rem;
-            background-image: url('/storage/app/public/image/Background.png');
-        }
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  padding: 0rem 1rem;
+  gap: 2rem;
+  background-image: url('/storage/app/public/image/Background.png');
+}
 
-        .hero-content {
-            max-width: 50%;
-        }
+.hero-content {
+  max-width: 50%;
+}
 
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: #1e293b;
-        }
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
 
-        .hero p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            color: #4b5563;
-        }
+.hero p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #4b5563;
+}
 
-       .hero .star{
-            font-size: 12px;
-        }
+.hero .star {
+  font-size: 12px;
+}
 
-        .hero-image img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-        }
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
 
-        footer {
-            text-align: center;
-            padding: 1.5rem;
-            background-color: #f1f5f9;
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: #f1f5f9;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
 
-        .visa-steps {
-            padding: 2rem 1rem;
-            text-align: center;
-            background-color: #ffffff;
-        }
+.visa-steps {
+  padding: 2rem 1rem;
+  text-align: center;
+  background-color: #ffffff;
+}
 
-        .visa-steps h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: #1e293b;
-        }
+.visa-steps h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+}
 
-        .steps-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            padding: 1rem;
-        }
+.steps-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(237px, 1fr));
+  gap: 0.5rem;
+  padding: 1rem;
+}
 
-        .step {
-            background-color: #ffffff;
-            border: 2px solid #d1d5db;
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-        }
+.step {
+  background-color: #ffffff;
+  border: 2px solid #d1d5db;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
 
-        .step:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
-        }
+.step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
 
-        .step img {
-            max-width: 80px;
-            height: auto;
-            margin: auto;
-            margin-bottom: 1rem;
-            
-        }
+.step img {
+  max-width: 80px;
+  height: auto;
+  margin: auto;
+  margin-bottom: 1rem;
 
-        .step h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: #1e293b;
-        }
+}
 
-        .step p {
-            font-size: 0.95rem;
-            color: #4b5563;
-        }
+.step h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
 
-        .step-number {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 2rem;
-            font-weight: bold;
-            color: #e5e7eb;
-        }
+.step p {
+  font-size: 0.95rem;
+  color: #4b5563;
+}
 
-        .why-choose {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 1rem 2rem;
-            background-color: #ffffff;
-        }
+.step-number {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #e5e7eb;
+}
 
-        .why-choose img {
-            max-width: 50%;
-            height: auto;
-            border-radius: 8px;
-        }
+.why-choose {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+}
 
-        .why-choose-content {
-            max-width: 50%;
-            padding-left: 1rem;
-        }
+.why-choose img {
+  max-width: 50%;
+  height: auto;
+  border-radius: 8px;
+}
 
-        .why-choose-content h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #1e293b;
-        }
+.why-choose-content {
+  max-width: 50%;
+  padding-left: 1rem;
+}
 
-        .why-choose-content p {
-            font-size: 1rem;
-            color: #4b5563;
-            margin-bottom: 1rem;
-        }
+.why-choose-content h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
 
-        @media (max-width: 768px) {
-            .menu-icon {
-                display: block;
-            }
+.why-choose-content p {
+  font-size: 1rem;
+  color: #4b5563;
+  margin-bottom: 1rem;
+}
 
-            .navbar {
-                display: none;
-                flex-direction: column;
-                background-color: #ffffff;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
 
-            .navbar.active {
-                display: flex;
-            }
+  .navbar {
+    display: none;
+    flex-direction: column;
+    background-color: #ffffff;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
 
-            .hero {
-                flex-direction: column;
-                text-align: center;
-            }
+  .navbar.active {
+    display: flex;
+  }
 
-            .hero-content {
-                max-width: 100%;
-            }
-            .hero-image {
-                margin-top: 2rem;
-            }
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
 
-            .why-choose {
-                flex-direction: column;
-            }
+  .hero-content {
+    max-width: 100%;
+  }
 
-            .why-choose img {
-                max-width: 100%;
-                margin-bottom: 1.5rem;
-            }
+  .hero-image {
+    margin-top: 2rem;
+  }
 
-            .why-choose-content {
-                max-width: 100%;
-                padding-left: 0;
-            }
+  .why-choose {
+    flex-direction: column;
+  }
 
-            .buttons{
-            margin-bottom: 10px;
-        }
+  .why-choose img {
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+  }
 
-        }
+  .why-choose-content {
+    max-width: 100%;
+    padding-left: 0;
+  }
 
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
+  .buttons {
+    margin-bottom: 10px;
+  }
 
-            .hero p {
-                font-size: 1rem;
-            }
-        }
+}
 
-        /* Visa Appointment Section */
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+}
+
+/* Visa Appointment Section */
 .visa-appointment {
   background-color: #f8f9fa;
   padding: 50px 0;
@@ -689,7 +661,8 @@ p {
     text-align: center;
   }
 
-  .text-content, .image-container {
+  .text-content,
+  .image-container {
     max-width: 100%;
   }
 
@@ -781,7 +754,8 @@ label {
   margin-bottom: 5px;
 }
 
-input, textarea {
+input,
+textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -837,7 +811,8 @@ input, textarea {
     text-align: center;
   }
 
-  .text-content, .form-container {
+  .text-content,
+  .form-container {
     max-width: 100%;
   }
 
@@ -851,53 +826,55 @@ input, textarea {
 }
 
 .appointment-container {
-    display: flex;
-    gap: 2rem;
-    padding: 1rem;
-  }
-  
-  .calendar-section {
-    flex: 4;
-  }
-  
-  /* Reduce the size of the calendar */
-  .small-calendar :deep(.el-calendar-table td) {
-    height: 30px; /* Reduce row height */
-    font-size: 12px; /* Reduce font size */
-    padding: 2px;
-  }
-  
-  /* Reduce the calendar header size */
-  .small-calendar :deep(.el-calendar__header) {
-    font-size: 14px;
-    padding: 8px;
-    
-  }
-  
-  /* Reduce the size of date numbers */
-  .small-calendar :deep(.el-calendar-day) {
-    font-size: 12px;
-    padding: 2px;
-    height:20px;
-  }
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+}
 
-  .el-calendar-table .el-calendar-day {
-    box-sizing: border-box;
-    padding: 8px;
-    height: 30px;
-  }
-  
-  .time-slot-section {
-    flex: 1;
-  }
-  
-  .time-slot-section h3 {
-    margin-bottom: 1rem;
-  }
-  
-  .time-slots {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 0.5rem;
-  }
-    </style>
+.calendar-section {
+  flex: 4;
+}
+
+/* Reduce the size of the calendar */
+.small-calendar :deep(.el-calendar-table td) {
+  height: 30px;
+  /* Reduce row height */
+  font-size: 12px;
+  /* Reduce font size */
+  padding: 2px;
+}
+
+/* Reduce the calendar header size */
+.small-calendar :deep(.el-calendar__header) {
+  font-size: 14px;
+  padding: 8px;
+
+}
+
+/* Reduce the size of date numbers */
+.small-calendar :deep(.el-calendar-day) {
+  font-size: 12px;
+  padding: 2px;
+  height: 20px;
+}
+
+.el-calendar-table .el-calendar-day {
+  box-sizing: border-box;
+  padding: 8px;
+  height: 30px;
+}
+
+.time-slot-section {
+  flex: 1;
+}
+
+.time-slot-section h3 {
+  margin-bottom: 1rem;
+}
+
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.5rem;
+}
+</style>

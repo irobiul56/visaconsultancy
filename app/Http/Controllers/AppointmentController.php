@@ -32,12 +32,20 @@ class AppointmentController extends Controller
             'appointments' => $appointments
         ]);
     }
+
+
+    public function done(Appointment $appointment)
+    {
+        $appointment->update(['status' => 'done']);
+
+    return redirect()->back()->with('success', 'Appointment marked as done!');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return inertia::render('Frontend/BookAppointment');
+        // return inertia::render('Frontend/BookAppointment');
     }
 
     /**
@@ -63,6 +71,7 @@ class AppointmentController extends Controller
         ]);
 
         Appointment::create($validated);
+
 
         return redirect()->back()->with('success', 'Appointment booked successfully!');
     }

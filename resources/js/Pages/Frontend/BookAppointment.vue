@@ -126,7 +126,7 @@
         return;
       }
   
-      form.post(route('appointments.store'), {
+      form.post(route('appointment.store'), {
         onSuccess: () => {
           alert("Appointment booked successfully!");
           dialogVisible.value = false;

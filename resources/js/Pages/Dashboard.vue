@@ -67,6 +67,15 @@ const deleteAppointment = (id) => {
         });
     });
 };
+
+// Approve Appointment
+const doneAppointment = (id) => {
+    router.patch(route("appointment.done", id), {}, {
+        onSuccess: () => ElMessage.success("Call successfully!"),
+        onError: () => ElMessage.error("Failed to call appointment.")
+    });
+};
+
 </script>
 
 <template>
@@ -119,6 +128,7 @@ const deleteAppointment = (id) => {
                                 <el-table-column label="Actions">
                                     <template #default="{ row }">
                                         <el-button type="danger" @click="deleteAppointment(row.id)">Delete</el-button>
+                                        <el-button v-if="row.status === 'pending'" type="success" @click="doneAppointment(row.id)"> Done </el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
