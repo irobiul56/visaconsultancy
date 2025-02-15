@@ -84,8 +84,8 @@ const handleContinue = () => {
         :style="{ backgroundImage: `url('/storage/image/Background.png')` }">
         <div class="hero-content max-w-1/2">
           <h1 class="text-4xl font-bold text-gray-800 mb-4">Expert Guidance for Student Visas</h1>
-          <p class="text-lg text-gray-600 mb-8">Unlock unlimited opportunities with expert guidance, personal
-            consultations for the best universities worldwide, and a hassle-free application process with visa support.
+          <p class="text-lg text-gray-600 mb-8">Do you want to apply for a higher education study program in the USA?
+            <br> To study in the US or any other country as an international student, you must get a student visa.
           </p>
           <div class="buttons flex gap-4">
             <button @click="openDialog"
@@ -106,15 +106,24 @@ const handleContinue = () => {
         <img src="https://unispaces.sgp1.cdn.digitaloceanspaces.com/nebula/images/1716835035743.svg"
           alt="Why choose illustration">
         <div class="why-choose-content">
-          <h2>Why choose Visa Consultancy for your <span style="color: #2563eb;">visa processing</span> needs?</h2>
-          <p>Some visa processing centers have reliability issues because they don’t have a secure server system. This
-            creates the possibility of visa rejection.</p>
-          <p>There are lots of visa processing support centers in Bangladesh. When you look for expertise and
-            experience, few of them are worthy to qualify. In terms of expertise and experience, VisaThing is the only
-            place where people can get reliable service. VisaThing's knowledge of different visa policies is authentic
-            and professional.</p>
-          <p>Visa Consultancy is a technology-based visa service provider in Bangladesh. You can get an A to Z visa
-            processing service through VisaThing online visa processing for Bangladeshi.</p>
+          <h2>Why Choose Visa Consulting Agency for your higher education <span style="color: #2563eb;">visa
+              processing</span> needs?</h2>
+          <p> There are lots of visa processing support centers in Bangladesh but when you look for expertise and
+            experience, few of them are worthy to qualify. Some visa processing centers have reliability issues because
+            they don’t have a secure server system. This creates the possibility of visa rejection.</p>
+          <p>Simsam Visa Consulting Agency is an authorized and leading Student Visa Consultancy firm in Dhaka,
+            Bangladesh. In terms of expertise and experience, Simsam Visa Consulting Agency is the only place where
+            people can get reliable service. Our knowledge of different visa policies is authentic and professional.</p>
+          <p>Simsam Visa Consulting Agency is a technology-based visa service provider in Bangladesh. we are providing
+            guidance and assistance to prospective students are intending to go to The United States of America for
+            higher education. You can get top to bottom visa processing service in our office or even online. We have an
+            upcoming plan to extend our services to the students for higher education in the United Kingdom, Canada, New
+            Zealand, Australia, China, UAE, and the others European countries.</p>
+          <p>Simsam Visa Consulting Agency assists students with the best and excellent services according to the needs
+            of students like the IELTS training course, Duolingo Tutoring Services, SOP/Personal Statement/Scholarship
+            Essay Writing etc. Our Counselors, Mentors, and Teachers are a dedicated team to ensure every student with
+            adhesive training and guidance throughout their journey of higher education.</p>
+          <p><strong>We always try to deliver friendly and professional services.</strong></p>
         </div>
       </section>
 
@@ -123,9 +132,7 @@ const handleContinue = () => {
         <div class="steps-container">
           <div class="step">
             <div class="step-number">01</div>
-            <img
-              :src="'/storage/image/process.png'"
-              alt="Step 1">
+            <img :src="'/storage/image/process.png'" alt="Step 1">
             <h3>Application process </h3>
             <p>First, you need to know about <a href="#" style="color: blue;">required documents</a> for visa
               processing in Bangladesh.</p>
@@ -286,53 +293,6 @@ header {
   z-index: 1000;
 }
 
-.logo img {
-  height: 70px;
-  width: 90px;
-}
-
-.navbar {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.navbar a {
-  text-decoration: none;
-  color: #2c3e50;
-  font-weight: 500;
-  padding: 0.5rem;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.navbar a:hover {
-  background-color: #e5e7eb;
-  color: #1d4ed8;
-}
-
-.menu-icon {
-  display: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-  color: #2c3e50;
-}
-
-.buttons a,
-button {
-  text-decoration: none;
-  padding: 0.7rem 1.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border-radius: 5px;
-  color: white;
-  background: #049191;
-  transition: background 0.3s;
-}
-
-.buttons a:hover {
-  background: #1e40af;
-}
-
 .buttons a.create-profile {
   background: #049191;
 }
@@ -375,14 +335,6 @@ button {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
-}
-
-footer {
-  text-align: center;
-  padding: 1.5rem;
-  background-color: #f1f5f9;
-  color: #6b7280;
-  font-size: 0.9rem;
 }
 
 .visa-steps {
@@ -453,7 +405,7 @@ footer {
   align-items: center;
   justify-content: space-around;
   padding: 1rem 2rem;
-  background-color: #ffffff;
+  background-color: #f8f9fa;
 }
 
 .why-choose img {
@@ -465,6 +417,7 @@ footer {
 .why-choose-content {
   max-width: 50%;
   padding-left: 1rem;
+  margin-top: 20px;
 }
 
 .why-choose-content h2 {

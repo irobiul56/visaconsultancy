@@ -19,6 +19,9 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^44.1.0",
+        "@ckeditor/ckeditor5-build-decoupled-document": "^44.1.0",
+        "@ckeditor/ckeditor5-vue": "^7.3.0",
         "@element-plus/icons-vue": "^2.3.1",
         "element-plus": "^2.9.3"
     }

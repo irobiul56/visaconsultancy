@@ -3,7 +3,8 @@
         <el-header class="topbar">
             <div class="contact-info">
                 <span> <el-icon><Message /></el-icon> info@visaconsultncy.com</span>
-                <span> <el-icon><Phone /></el-icon> +8801703453018</span>
+                <span> <el-icon><Phone /></el-icon> +1-347-233-5473</span>
+                <span> <el-icon><Phone /></el-icon> +880 1719-688704</span>
                 <span><el-icon><LocationInformation /></el-icon> Dhaka, Bangladesh</span>
             </div>
             <div class="contact-info">
