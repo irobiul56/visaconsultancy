@@ -23,12 +23,12 @@ onMounted(() => {
     <div class="menu-icon" ref="menuIcon">☰</div>
     <nav class="navbar" ref="navbar">
       <Link :href="route('home')" :active="route().current('home')">Home</Link>
-      <a href="#">About</a>
+      <Link :href="route('about.page')">About</Link>
       <a href="#">Study Abroad</a>
       <Link :href="route('services.all')" :active="route().current('services.all')">Services</Link>
       <a href="#">Requirement</a>
       <a href="#">Contact</a>
-      <a href="#">Register</a>
+      <Link :href="route('registration.page')">Register</Link>
       <div class="buttons">
         <Link :href="route('login')" class="button">Log In</Link>
       </div>

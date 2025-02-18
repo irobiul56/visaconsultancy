@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\FrontendController;
 use App\Models\Appointment;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -34,5 +36,8 @@ Route::middleware('auth')->group(function () {
 
 Route::get(uri: '/services/all', action: [ServicesController::class, 'allservices'])->name('services.all');
 Route::resource('appointment', AppointmentController::class);
+Route::get(uri: '/registration', action: [RegistrationController::class, 'registrationpage'])->name('registration.page');
+Route::resource('registrations', controller: RegistrationController::class);
+Route::get(uri: '/about', action: [FrontendController::class, 'aboutpage'])->name('about.page');
 
 require __DIR__.'/auth.php';
