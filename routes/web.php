@@ -39,5 +39,8 @@ Route::resource('appointment', AppointmentController::class);
 Route::get(uri: '/registration', action: [RegistrationController::class, 'registrationpage'])->name('registration.page');
 Route::resource('registrations', controller: RegistrationController::class);
 Route::get(uri: '/about', action: [FrontendController::class, 'aboutpage'])->name('about.page');
+Route::get(uri: '/contact-us', action: [FrontendController::class, 'contactus'])->name('contact.us');
+Route::post(uri: '/contact-us', action: [FrontendController::class, 'storecontactdata'])->name('store.contact');
+Route::get(uri: '/requirment', action: [FrontendController::class, 'requirment'])->name('requirment.page');
 
 require __DIR__.'/auth.php';

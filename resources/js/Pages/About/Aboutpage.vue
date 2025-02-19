@@ -11,7 +11,7 @@ import { ElMessage } from 'element-plus';
 
     <Head title="Registration" />
     <FrontendLayout>
-        <section class="banner ">
+        <section class="banner">
             <div class="content">
                 <div class="text-section">
                     <h1 class="text-white">About Sim Sam Visa Consulting Agency!</h1>

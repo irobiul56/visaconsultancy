@@ -26,8 +26,8 @@ onMounted(() => {
       <Link :href="route('about.page')">About</Link>
       <a href="#">Study Abroad</a>
       <Link :href="route('services.all')" :active="route().current('services.all')">Services</Link>
-      <a href="#">Requirement</a>
-      <a href="#">Contact</a>
+      <Link :href="route('requirment.page')">Requirement</Link>
+      <Link :href="route('contact.us')">Contact</Link>
       <Link :href="route('registration.page')">Register</Link>
       <div class="buttons">
         <Link :href="route('login')" class="button">Log In</Link>
