@@ -24,7 +24,7 @@ onMounted(() => {
     <nav class="navbar" ref="navbar">
       <Link :href="route('home')" :active="route().current('home')">Home</Link>
       <Link :href="route('about.page')">About</Link>
-      <a href="#">Study Abroad</a>
+      <Link :href="route('studyabroad.all')">Study Abroad</Link>
       <Link :href="route('services.all')" :active="route().current('services.all')">Services</Link>
       <Link :href="route('requirment.page')">Requirement</Link>
       <Link :href="route('contact.us')">Contact</Link>
