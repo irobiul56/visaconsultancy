@@ -81,15 +81,43 @@ class ServicesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $service = Service::findOrFail($id);
+        return inertia('Services/Edit', [
+        'service' => $service
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Service $service)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'nullable|string',
+            'featured_image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048', // Image validation
+        ]);
+    
+        // Update service details
+        $service->title = $request->title;
+        $service->description = $request->content;
+    
+        // Handle image upload if a new one is provided
+        if ($request->hasFile('featured_image')) {
+            // Delete the old image if it exists
+            if ($service->image) {
+                Storage::disk('public')->delete($service->image);
+            }
+    
+            // Store the new image
+            $imagePath = $request->file('featured_image')->store('featured_image', 'public');
+            $service->image = $imagePath;
+        }
+    
+        $service->save();
+    
+        return redirect()->route('service.index')->with('message', 'Service updated successfully!');
+    
     }
 
     /**

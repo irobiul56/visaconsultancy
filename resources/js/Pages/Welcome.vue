@@ -1,13 +1,28 @@
 <script setup>
 import FrontendLayout from '@/Layouts/FronendLayout.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import { ref, watch } from "vue";
 import { ElMessage } from "element-plus";
+
+const { props } = usePage();
+const steps = ref(props.steps);
 
 const dialogVisible = ref(false);
 const step = ref(1);
 const selectedDate = ref(new Date());
 const selectedTime = ref(null);
+
+const getShortDescription = (htmlContent, maxLength = 150) => {
+    if (!htmlContent) return '';
+    
+    // Create a temporary DOM element to strip HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlContent;
+    const text = tempDiv.textContent || tempDiv.innerText || '';
+
+    // Return truncated text with "..." if longer than maxLength
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+};
 
 const availableTimeSlots = ["11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM"];
 
@@ -128,48 +143,15 @@ const handleContinue = () => {
       </section>
 
       <section class="visa-steps">
-        <h2>Get your <span style="color: #2563eb;">Visa</span> within <span style="color: #2563eb;">5 Steps</span></h2>
+        <h2>Your <span style="color: #2563eb;">5 Steps</span> To U.S Study</h2>
         <div class="steps-container">
-          <div class="step">
-            <div class="step-number">01</div>
-            <img :src="'/storage/image/process.png'" alt="Step 1">
-            <h3>Application process </h3>
-            <p>First, you need to know about <a href="#" style="color: blue;">required documents</a> for visa
-              processing in Bangladesh.</p>
-          </div>
-          <div class="step">
-            <div class="step-number">02</div>
-            <img
-              src="https://visathing.com/_next/image/?url=https%3A%2F%2Funispaces.sgp1.cdn.digitaloceanspaces.com%2Fnebula%2Fimages%2F1704188476172.png&w=1920&q=75"
-              alt="Step 1">
-            <h3>Create Visa Consultancy! Account</h3>
-            <p>After, knowing the required documents, you can open an account on the Visa Consultancy online portal.</p>
-          </div>
-          <div class="step">
-            <div class="step-number">03</div>
-            <img
-              src="https://visathing.com/_next/image/?url=https%3A%2F%2Funispaces.sgp1.cdn.digitaloceanspaces.com%2Fnebula%2Fimages%2F1704188580898.png&w=1920&q=75"
-              alt="Step 2">
-            <h3>Upload Your Documents</h3>
-            <p>After completing your Visa Consultancy account, you need to upload all the necessary documents. Kindly
-              scan all the required documents properly.</p>
-          </div>
-          <div class="step">
-            <div class="step-number">04</div>
-            <img
-              src="https://visathing.com/_next/image/?url=https%3A%2F%2Funispaces.sgp1.cdn.digitaloceanspaces.com%2Fnebula%2Fimages%2F1704188609106.png&w=1920&q=75"
-              alt="Step 3">
-            <h3>Embassy Approval</h3>
-            <p>After uploading all the required documents, Visa Consultancy will start your desired visa processing and
-              send it to the embassy.</p>
-          </div>
-          <div class="step">
-            <div class="step-number">05</div>
-            <img
-              src="https://visathing.com/_next/image/?url=https%3A%2F%2Funispaces.sgp1.cdn.digitaloceanspaces.com%2Fnebula%2Fimages%2F1704188650177.png&w=1920&q=75"
-              alt="Step 4">
-            <h3>Get Your Visa</h3>
-            <p>After the embassy gives you visa approval, you will get your visa copy.</p>
+
+          <div class="step" v-for="(step, index) in steps" :key="index">
+            <div class="step-number">{{ index+1 }}</div>
+            <img :src="`/storage/${step.image}`" alt="Step" class=" w-100% object-cover rounded m-2">
+            <h3>{{ step.title }} </h3>
+            <p>{{ getShortDescription(step.description, 100) }}</p>
+            <a href="#" class="text-green-500"> Read More...</a>
           </div>
         </div>
       </section>

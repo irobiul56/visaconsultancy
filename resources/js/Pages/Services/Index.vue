@@ -101,9 +101,9 @@ const deleteservices = (servicesId) => {
                         <td class="gap-5 py-2 px-4 border-b">
 
                            <!-- Edit button to open modal for editing -->
-                            <link @click="editservices(services)">
+                           <Link :href="route('service.edit', services.id)">
                                 <el-button>Edit</el-button>
-                            </link>
+                            </Link>
 
                             <Link @click="deleteservices(services.id)">
                                 <el-button>Delete</el-button>

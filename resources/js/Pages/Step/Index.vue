@@ -7,15 +7,15 @@ import { usePage, useForm } from '@inertiajs/vue3';
 import { ElMessage } from "element-plus";
 
 const { props } = usePage()
-const studyabroad = ref(props.studyabroad)
+const step = ref(props.step)
 
 const itemsPerPage = ref(10)
 const currentPage = ref(1)
 const searchQuery = ref('')
 
-const filteredstudyabroad = computed(() => {
-  const filtered = studyabroad.value.filter(studyabroad => 
-  studyabroad.title.toLowerCase().includes(searchQuery.value.toLowerCase()) 
+const filteredstep = computed(() => {
+  const filtered = step.value.filter(step => 
+  step.title.toLowerCase().includes(searchQuery.value.toLowerCase()) 
   )
   const start = (currentPage.value - 1) * itemsPerPage.value
   const end = start + itemsPerPage.value
@@ -24,8 +24,8 @@ const filteredstudyabroad = computed(() => {
 
 const totalPages = computed(() => {
   return Math.ceil(
-    studyabroad.value.filter(studyabroad => 
-    studyabroad.title.toLowerCase().includes(searchQuery.value.toLowerCase()) 
+    step.value.filter(step => 
+    step.title.toLowerCase().includes(searchQuery.value.toLowerCase()) 
     ).length / itemsPerPage.value
   )
 })
@@ -47,15 +47,15 @@ defineProps({
     errors: Object 
 })
 
-const deletestudyabroad = (studyabroadId) => {
+const deletestep = (stepId) => {
     if (confirm("Are you sure you want to delete this data?")) {
-        studyabroad.delete(route('study-abroad.destroy', studyabroadId), {
+        step.delete(route('step.destroy', stepId), {
             onSuccess: (page) => {
-                studyabroad.value = page.props.studyabroad; // Update the studyabroads list after deletion
-                ElMessage.success("studyabroad deleted successfully!");
+                step.value = page.props.step; // Update the steps list after deletion
+                ElMessage.success("step deleted successfully!");
             },
             onError: () => {
-                ElMessage.error("Failed to delete the studyabroad. Please try again.");
+                ElMessage.error("Failed to delete the step. Please try again.");
             },
         });
     }
@@ -71,13 +71,13 @@ const deletestudyabroad = (studyabroadId) => {
         {{ $page.props.flash?.message }}
       </div>
       
-        <Head title="studyabroad page"></Head>
+        <Head title="Step page"></Head>
         <div class="container mx-auto mt-10">
             <div class="relative mx-4 lg:mx-0 mb-2">
                 <input v-model="searchQuery"
                     class="w-32 pl-10 pr-4 text-indigo-600 border-gray-200 rounded-md sm:w-64 focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                     type="text" placeholder="Search">
-                    <el-button class=" ml-3"  type="success"><Link :href="route('studyabroad.create')" class="button">Add</Link></el-button>
+                    <el-button class=" ml-3"  type="success"><Link :href="route('step-create.add')" class="button">Add</Link></el-button>
 
             </div>
 
@@ -92,20 +92,20 @@ const deletestudyabroad = (studyabroadId) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(studyabroad, index) in filteredstudyabroad" :key="index" class="hover:bg-gray-100">
+                    <tr v-for="(step, index) in filteredstep" :key="index" class="hover:bg-gray-100">
                         <td class="py-2 px-4 border-b">{{ index + 1 }}</td>
                         <td class="py-2 px-4 border-b">
-                            <img :src="`/storage/${studyabroad.image}`" alt="Service Image" class="h-10 w-10 object-cover rounded border m-2">
+                            <img :src="`/storage/${step.image}`" alt="Service Image" class="h-10 w-10 object-cover rounded border m-2">
                         </td>
-                        <td class="py-2 px-4 border-b">{{ studyabroad.title }}</td>
+                        <td class="py-2 px-4 border-b">{{ step.title }}</td>
                         <td class="gap-5 py-2 px-4 border-b">
 
                            <!-- Edit button to open modal for editing -->
-                           <Link :href="route('study-abroad.edit', studyabroad.id)">
+                           <Link :href="route('step.edit', step.id)">
                                 <el-button>Edit</el-button>
                             </Link>
 
-                            <Link @click="deletestudyabroad(studyabroad.id)">
+                            <Link @click="deletestep(step.id)">
                                 <el-button>Delete</el-button>
                             </Link>
                         </td>

@@ -1,23 +1,30 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ContactListController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegisterCustomerController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\StepController;
 use App\Http\Controllers\StudyAbroadController;
 use App\Models\Appointment;
 use App\Models\StudyAbroad;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\Step;
 
 Route::get('/', function () {
+    $steps = Step::all();
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'steps'  => $steps
+
     ]);
 })->name('home');
 
@@ -34,8 +41,19 @@ Route::middleware('auth')->group(function () {
     //Services
     Route::get('/services', [ServicesController::class, 'addservices'])->name('services.add');
     Route::resource('service', controller: ServicesController::class);
+
     Route::resource('study-abroad', controller: StudyAbroadController::class);
     Route::get('/study-abroad/create', [StudyAbroadController::class, 'addform'])->name('studyabroad.create');
+   
+    Route::resource('step', controller: StepController::class);
+    Route::get('/step-create', [StepController::class, 'addform'])->name('step-create.add');
+    
+    Route::resource('contact-list', controller: ContactListController::class);
+
+    Route::resource('register-customer', controller: RegisterCustomerController::class);
+
+
+    
 });
 
 Route::get(uri: '/services/all', action: [ServicesController::class, 'allservices'])->name('services.all');
